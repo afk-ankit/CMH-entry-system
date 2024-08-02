@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +19,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="xl:w-1/2 xl:h-1/2 xl:min-h-[300px] fixed opacity-10 border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <Image
-            alt="charaideo-logo"
-            src={"/cmh-logo.png"}
-            fill
-            className="object-contain"
-          />
-        </div>
-        <section className="container py-8 min-h-screen">{children}</section>
+        {/* <div className="xl:w-1/2 xl:h-1/2 xl:min-h-[300px] fixed opacity-10 border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10"> */}
+        {/*     alt="charaideo-logo" */}
+        {/*     src={"/cmh-logo.png"} */}
+        {/*   <Image */}
+        {/*     fill */}
+        {/*     className="object-contain" */}
+        {/*   /> */}
+        {/* </div> */}
+        <main className="container py-8 min-h-screen">{children}</main>
+        <Toaster />
       </body>
     </html>
   );
