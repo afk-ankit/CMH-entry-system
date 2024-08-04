@@ -14,6 +14,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddEntry } from "@/lib/actions/server-action";
 import { useToast } from "@/components/ui/use-toast";
+import { useGeofencedLocation } from "@/hooks/useGeofencedLocation";
 
 const FormSchema = z.object({
   name: z.string().min(1),
@@ -43,6 +44,8 @@ const EntryForm = () => {
   };
   //toaster
   const { toast } = useToast();
+  //geolocation hook
+  const { isWithinGeofence, accuracy, error } = useGeofencedLocation();
   //component start
   return (
     <>
@@ -99,6 +102,16 @@ const EntryForm = () => {
           </Button>
         </form>
       </Form>
+      {accuracy && (
+        <p className="text-center text-lg mt-4">
+          Location accuracy {accuracy.toFixed(2)} meters
+        </p>
+      )}
+      {!isWithinGeofence && (
+        <p className="text-center text-lg mt-4">
+          You must be within the hostel premises to submit the entry form.
+        </p>
+      )}
     </>
   );
 };

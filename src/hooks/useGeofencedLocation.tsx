@@ -1,23 +1,27 @@
+import {
+  calculateDistance,
+  GEOFENCE_RADIUS,
+  HOSTEL_LATITUDE,
+  HOSTEL_LONGITUDE,
+} from "@/lib/utils";
 import { useState, useEffect } from "react";
 
-interface GeolocationState {
-  latitude: number | null;
-  longitude: number | null;
+interface GeofencedLocationState {
+  isWithinGeofence: boolean;
   accuracy: number | null;
   error: string | null;
 }
 
-export function useGeolocation(): GeolocationState {
-  const [location, setLocation] = useState<GeolocationState>({
-    latitude: null,
-    longitude: null,
+export function useGeofencedLocation(): GeofencedLocationState {
+  const [state, setState] = useState<GeofencedLocationState>({
+    isWithinGeofence: false,
     accuracy: null,
     error: null,
   });
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setLocation((prev) => ({
+      setState((prev) => ({
         ...prev,
         error: "Geolocation is not supported by your browser",
       }));
@@ -26,11 +30,18 @@ export function useGeolocation(): GeolocationState {
 
     const handleSuccess = (position: GeolocationPosition) => {
       const { latitude, longitude, accuracy } = position.coords;
-      setLocation({ latitude, longitude, accuracy, error: null });
+      const distance = calculateDistance(
+        latitude,
+        longitude,
+        HOSTEL_LATITUDE,
+        HOSTEL_LONGITUDE,
+      );
+      const isWithinGeofence = distance <= GEOFENCE_RADIUS;
+      setState({ isWithinGeofence, accuracy, error: null });
     };
 
     const handleError = (error: GeolocationPositionError) => {
-      setLocation((prev) => ({ ...prev, error: error.message }));
+      setState((prev) => ({ ...prev, error: error.message }));
     };
 
     const options: PositionOptions = {
@@ -48,5 +59,5 @@ export function useGeolocation(): GeolocationState {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  return location;
+  return state;
 }
