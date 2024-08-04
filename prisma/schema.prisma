@@ -20,3 +20,11 @@ model Form {
   description String?
   out_time    DateTime @default(now())
 }
+
+model EntryForm {
+  id          String   @id @default(uuid())
+  name        String
+  room_number Int
+  roll_number String
+  in_time     DateTime @default(now())
+}

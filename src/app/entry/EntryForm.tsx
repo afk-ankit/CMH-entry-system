@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,36 +12,28 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ReasonSelect from "./ReasonSelect";
-import { AddExit } from "@/lib/actions/server-action";
+import { AddEntry } from "@/lib/actions/server-action";
 import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   name: z.string().min(1),
   roll_number: z.string().min(5),
   room_number: z.number({ message: "Excpected Number" }).nonnegative(),
-  destination: z.string().min(1),
-  reason: z.string().min(1),
-  description: z.string().optional(),
 });
-export type IForm = z.infer<typeof FormSchema>;
+export type IEntryForm = z.infer<typeof FormSchema>;
 
-const ExitForm = () => {
+const EntryForm = () => {
   //useForm init
-  const form = useForm<IForm>({
+  const form = useForm<IEntryForm>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
       roll_number: "",
-      room_number: undefined,
-      destination: "",
-      reason: "",
-      description: "",
     },
   });
   //Function to handle Form Submission
-  const onSubmit = async (value: IForm) => {
-    const res = await AddExit(value);
+  const onSubmit = async (value: IEntryForm) => {
+    const res = await AddEntry(value);
     if (res) {
       toast({ title: "Something went wrong" });
       return;
@@ -50,8 +41,6 @@ const ExitForm = () => {
     form.reset();
     toast({ title: "Submitted Successfully" });
   };
-  //watch reason input
-  const reason = form.watch("reason");
   //toaster
   const { toast } = useToast();
   //component start
@@ -105,47 +94,6 @@ const ExitForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="destination"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Enter the destination</FormLabel>
-                <FormControl>
-                  <Input placeholder="Specify the destination" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="reason"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Select the reason for exit</FormLabel>
-                <FormControl>
-                  <ReasonSelect />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {reason === "others" && (
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Describe the reason for exit</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Specify the reason" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
           <Button type="submit" className="w-full">
             Submit
           </Button>
@@ -154,4 +102,4 @@ const ExitForm = () => {
     </>
   );
 };
-export default ExitForm;
+export default EntryForm;
