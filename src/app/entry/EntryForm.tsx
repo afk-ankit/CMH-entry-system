@@ -99,16 +99,16 @@ const EntryForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={!isWithinGeofence}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!isWithinGeofence || !!error}
+          >
             Submit
           </Button>
         </form>
       </Form>
-      {accuracy && (
-        <p className="text-center text-lg mt-4">
-          Location accuracy {accuracy.toFixed(2)} meters
-        </p>
-      )}
+      {error && <p className="text-center text-lg mt-4">{error}</p>}
       {!isWithinGeofence && (
         <p className="text-center text-lg mt-4">
           You must be within the hostel premises to submit the entry form.

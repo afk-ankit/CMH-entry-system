@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export const HOSTEL_LATITUDE = 26.701569370515426;
 export const HOSTEL_LONGITUDE = 92.83623619883863;
 export const GEOFENCE_RADIUS = 50;
+export const ACCURACCY_THRESHOLD = 20;
 
 export function calculateDistance(
   lat1: number,

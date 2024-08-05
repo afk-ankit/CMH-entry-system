@@ -1,4 +1,5 @@
 import {
+  ACCURACCY_THRESHOLD,
   calculateDistance,
   GEOFENCE_RADIUS,
   HOSTEL_LATITUDE,
@@ -32,6 +33,14 @@ export function useGeofencedLocation(): GeofencedLocationState {
 
     const handleSuccess = (position: GeolocationPosition) => {
       const { latitude, longitude, accuracy } = position.coords;
+      if (accuracy > ACCURACCY_THRESHOLD) {
+        setState((prev) => ({
+          ...prev,
+          error: `Location accuracy (${accuracy.toFixed(2)}m) is too low. Please try again in a more open area.`,
+          userLocation: { lat: latitude, lng: longitude },
+        }));
+        return;
+      }
       const distance = calculateDistance(
         latitude,
         longitude,
