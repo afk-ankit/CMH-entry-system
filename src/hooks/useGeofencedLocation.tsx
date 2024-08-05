@@ -10,6 +10,7 @@ interface GeofencedLocationState {
   isWithinGeofence: boolean;
   accuracy: number | null;
   error: string | null;
+  userLocation: { lat: number; lng: number } | null;
 }
 
 export function useGeofencedLocation(): GeofencedLocationState {
@@ -17,6 +18,7 @@ export function useGeofencedLocation(): GeofencedLocationState {
     isWithinGeofence: false,
     accuracy: null,
     error: null,
+    userLocation: null,
   });
 
   useEffect(() => {
@@ -37,7 +39,12 @@ export function useGeofencedLocation(): GeofencedLocationState {
         HOSTEL_LONGITUDE,
       );
       const isWithinGeofence = distance <= GEOFENCE_RADIUS;
-      setState({ isWithinGeofence, accuracy, error: null });
+      setState({
+        isWithinGeofence,
+        accuracy,
+        error: null,
+        userLocation: { lat: latitude, lng: longitude },
+      });
     };
 
     const handleError = (error: GeolocationPositionError) => {
