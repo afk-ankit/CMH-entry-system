@@ -46,8 +46,7 @@ const EntryForm = () => {
   //toaster
   const { toast } = useToast();
   //geolocation hook
-  const { isWithinGeofence, accuracy, error, userLocation } =
-    useGeofencedLocation();
+  const { isWithinGeofence, error, userLocation } = useGeofencedLocation();
   //component start
   return (
     <>
@@ -108,13 +107,19 @@ const EntryForm = () => {
           </Button>
         </form>
       </Form>
-      {error && <p className="text-center text-lg mt-4">{error}</p>}
-      {!isWithinGeofence && (
-        <p className="text-center text-lg mt-4">
-          You must be within the hostel premises to submit the entry form.
-        </p>
-      )}
-      <GoogleMapGeofence userLocation={userLocation} />
+      <div className="space-y-4 mt-4">
+        {!error && !isWithinGeofence && (
+          <p className="text-center text-lg font-bold">
+            You must be within the hostel premises to submit the entry form.
+          </p>
+        )}
+        {error && (
+          <p className="text-center text-lg bg-destructive/90 text-destructive-foreground w-fit mx-auto py-1 px-3 rounded-md">
+            {error}
+          </p>
+        )}
+        <GoogleMapGeofence userLocation={userLocation} />
+      </div>
     </>
   );
 };

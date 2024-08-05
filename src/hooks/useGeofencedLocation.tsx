@@ -36,7 +36,7 @@ export function useGeofencedLocation(): GeofencedLocationState {
       if (accuracy > ACCURACCY_THRESHOLD) {
         setState((prev) => ({
           ...prev,
-          error: `Location accuracy (${accuracy.toFixed(2)}m) is too low. Please try again in a more open area.`,
+          error: `Location accuracy  is too low. Please try again in a more open area.`,
           userLocation: { lat: latitude, lng: longitude },
         }));
         return;
