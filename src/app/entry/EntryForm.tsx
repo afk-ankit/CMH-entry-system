@@ -25,6 +25,7 @@ import {
   signToken,
 } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -137,6 +138,12 @@ const EntryForm = () => {
             className="w-full"
             disabled={!isWithinGeofence || !!error || loading}
           >
+            {loading && (
+              <LoaderCircle
+                size={18}
+                className="text-white animate-spin mr-2"
+              />
+            )}
             Submit
           </Button>
         </form>
