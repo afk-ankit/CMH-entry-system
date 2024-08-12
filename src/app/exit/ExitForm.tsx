@@ -78,9 +78,9 @@ const ExitForm = () => {
         });
         return;
       }
-      form.reset();
       toast({ title: "Submitted Successfully" });
       router.push("/");
+      form.reset();
     } catch (error) {
       if (error instanceof Error) toast({ title: error.message });
     } finally {

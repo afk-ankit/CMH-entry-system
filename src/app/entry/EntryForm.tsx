@@ -68,9 +68,9 @@ const EntryForm = () => {
         });
         return;
       }
-      form.reset();
       toast({ title: "Submitted Successfully" });
       router.push(`/success?token=${token}&time=${Date.now()}`);
+      form.reset();
     } catch (error) {
       if (error instanceof Error) toast({ title: error.message });
     } finally {
