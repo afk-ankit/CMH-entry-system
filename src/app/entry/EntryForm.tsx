@@ -136,7 +136,7 @@ const EntryForm = () => {
           <Button
             type="submit"
             className="w-full"
-            disabled={!isWithinGeofence || !!error || loading}
+            // disabled={!isWithinGeofence || !!error || loading}
           >
             {loading && (
               <LoaderCircle
